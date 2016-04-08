@@ -1,0 +1,21 @@
+{
+  "name": "btcnews",
+  "version": "0.1.0",
+  "description": "A bitcoin news crawler",
+  "main": "btcnews.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "btc",
+    "news",
+    "crawler"
+  ],
+  "author": "wilsonhuang",
+  "license": "MIT",
+  "dependencies": {
+    "chai": "^3.5.0",
+    "request": "^2.70.0",
+    "string": "^3.3.1"
+  }
+}
