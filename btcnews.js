@@ -32,24 +32,15 @@ Btcnews.prototype.getPosts = function(source, callback) {
 		        header = $('.entry-header');
 		        content = $('.img').children();
 		        content.map(function(i, el) {
-		          var object = {};
-
-		          object.url = $(this).attr('href');
-		          object.title = $(this).attr('title');
-		          object.imgUrl = $(this).children().attr('src');
-		          object.source = 'TechNews 科技新報';
-		          techNewsObjectList.push(new Post($(this).attr('title'), $(this).attr('href'), 'TechNews 科技新報', $(this).children().attr('src'), null));
+                    techNewsObjectList.push(new Post($(this).attr('title'), $(this).attr('href'), 'TechNews 科技新報', $(this).children().attr('src'), null));
 		        });
-
 		        var j = 0;
 		        header.map(function(i, el) {
-		          var list = $(this).children().children().next().children().children().next().next().next().next()['0'].children;
-		          var timeString = list[0].data;
-
-		          techNewsObjectList[j].timestamp = self.getTimestamp(timeString);
-		          j++;
+                    var list = $(this).children().children().next().children().children().next().next().next().next()['0'].children;
+                    var timeString = list[0].data;
+                    techNewsObjectList[j].timestamp = self.getTimestamp(timeString);
+                    j++;
 		        });
-
 		        callback(null, techNewsObjectList);
 		    }
 		    else {
@@ -88,11 +79,7 @@ Btcnews.prototype.getPosts = function(source, callback) {
 			else {
 				var postObjects = body.response.posts;
 				for (var i = 0; i < postObjects.length; i++) {
-					self.posts.push(new Post(postObjects[i].summary,
-											postObjects[i].short_url,
-											'BT Club〉台灣比特幣俱樂部',
-											stringjs(postObjects[i].body).between('<img src="', '" data-orig-height').s,
-											postObjects[i].timestamp));
+					self.posts.push(new Post(postObjects[i].summary, postObjects[i].short_url, 'BT Club〉台灣比特幣俱樂部', stringjs(postObjects[i].body).between('<img src="', '" data-orig-height').s, postObjects[i].timestamp));
 				}
 				callback(null, self.posts);
 			}
