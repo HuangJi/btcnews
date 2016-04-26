@@ -1,6 +1,6 @@
 {
   "name": "btcnews",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "A bitcoin news crawler",
   "main": "btcnews.js",
   "scripts": {
@@ -21,6 +21,7 @@
   "dependencies": {
     "chai": "^3.5.0",
     "request": "^2.70.0",
-    "string": "^3.3.1"
+    "string": "^3.3.1",
+    "utf8": "^2.1.1"
   }
 }
