@@ -3,7 +3,6 @@ var https = require('https');
 var cheerio = require('cheerio');
 var request = require('request');
 var stringjs = require('string');
-var utf8 = require('utf8');
 
 function Post(title, url, source, imgUrl, timestamp) {
     this.title = title;
@@ -99,7 +98,7 @@ Btcnews.prototype.getPosts = function(source, callback) {
                     var imgUrl = $(this).children().children().children().children().attr('src');
                     var title = $(this).children().next().children().children().attr('title');
                     var timeString = $(this).children().next().children().next().next().children('.visible-lg').text();
-                    imgUrl = utf8.encode(imgUrl);
+                    imgUrl = encodeURI(imgUrl);
                     babtcObjectList.push(new Post(title, url, '巴比特 - 比特幣中文社區', imgUrl, self.getTimestamp('8btc', timeString)));
                 });
                 callback(null, babtcObjectList);
