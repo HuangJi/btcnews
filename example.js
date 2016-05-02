@@ -5,6 +5,8 @@ btcnews.getPosts('8btc', function(err, body) {
     console.log(body);
 });
 
+console.log(btcnews.sourceList);
+
 // btcnews.getPosts('bnext', function(err, body) {
 //     console.log(body);
 // });

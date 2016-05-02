@@ -21,6 +21,24 @@ function Btcnews() {
         BABTC_BTICOIN_TAG_URL: 'http://www.8btc.com/technical'
     };
     this.posts = [];
+    this.sourceList = [
+        {
+            name: 'technews',
+            imgUrl: 'http://www.gogobit.com/images/articleSources/technews.png'
+        },
+        {
+            name: 'bnext',
+            imgUrl: 'http://www.gogobit.com/images/articleSources/bnext.png'
+        },
+        {
+            name: '8btc',
+            imgUrl: 'http://www.gogobit.com/images/articleSources/8btc.png'
+        },
+        {
+            name: 'btclub',
+            imgUrl: 'http://www.gogobit.com/images/articleSources/btclub.png'
+        }
+    ];
 }
 
 Btcnews.prototype.getPosts = function(source, callback) {
