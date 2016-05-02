@@ -24,18 +24,22 @@ function Btcnews() {
     this.sourceList = [
         {
             name: 'technews',
+            source: "TechNews 科技新報",
             imgUrl: 'http://www.gogobit.com/images/articleSources/technews.png'
         },
         {
             name: 'bnext',
+            source: "Bnext 數位時代",
             imgUrl: 'http://www.gogobit.com/images/articleSources/bnext.png'
         },
         {
             name: '8btc',
+            source: "巴比特 - 比特幣中文社區",
             imgUrl: 'http://www.gogobit.com/images/articleSources/8btc.png'
         },
         {
             name: 'btclub',
+            source: "BT Club〉台灣比特幣俱樂部",
             imgUrl: 'http://www.gogobit.com/images/articleSources/btclub.png'
         }
     ];
