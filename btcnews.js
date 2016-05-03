@@ -42,6 +42,11 @@ function Btcnews() {
             name: 'btclub',
             source: "BT Club〉台灣比特幣俱樂部",
             imgUrl: 'http://www.gogobit.com/images/articleSources/btclub.png'
+        },
+        {
+            name: 'bitecoin',
+            source: "比特幣中文網",
+            imgUrl: 'http://www.gogobit.com/images/articleSources/bitecoin.png'
         }
     ];
 }
