@@ -18,7 +18,8 @@ function Btcnews() {
         BTCTW_TUMBLR_API: 'https://api.tumblr.com/v2/blog/btctw.tumblr.com/posts/text?api_key=fuiKNFp9vQFvjLNvx4sUwti4Yb5yGutBN4Xh10LXZhhRKjWlV4&notes_info=true',
         TECHNEWS_BITCOIN_TAG_URL: 'http://technews.tw/tag/%E6%AF%94%E7%89%B9%E5%B9%A3/',
         BNEXT_BITCOIN_TAG_URL: 'http://www.bnext.com.tw/search/tag/%E6%AF%94%E7%89%B9%E5%B9%A3',
-        BABTC_BTICOIN_TAG_URL: 'http://www.8btc.com/technical'
+        BABTC_BTICOIN_TAG_URL: 'http://www.8btc.com/technical',
+        BITECOIN_URL: 'http://www.bitecoin.com/'
     };
     this.posts = [];
     this.sourceList = [
@@ -131,6 +132,29 @@ Btcnews.prototype.getPosts = function(source, callback) {
             }
         });
     }
+    else if (source == 'bitecoin') {
+        var self = this;
+        var bitecoinObjectList = [];
+        request(this.getOptions(this.uris.BITECOIN_URL), function(error, response, html) {
+            if (!error && response.statusCode == 200) {
+                var $ = cheerio.load(html);
+                list = $('#content').children();
+                list.map(function(i, el) {
+                    var url = $(this).children().children().children().attr('href');
+                    var title = $(this).children().children('h1').text();
+                    var imgUrl = $(this).children().next().children().children().attr('src');
+                    var timeString = $(this).children().children('.entry-meta').children().next().children().attr('datetime');
+                    imgUrl = encodeURI(imgUrl);
+                    bitecoinObjectList.push(new Post(title, url, '比特幣中文網', imgUrl, self.getTimestamp('bitecoin', timeString)));
+                });
+                callback(null, bitecoinObjectList);
+            }
+            else {
+                console.log(error);
+                callback(error, null);
+            }
+        });
+    }
     else {
         // TODO
         callback(null, null);
@@ -148,6 +172,9 @@ Btcnews.prototype.getTimestamp = function(source, timeString) {
 
     }
     else if (source == '8btc') {
+        var dateString = timeString;
+    }
+    else if (source == 'bitecoin') {
         var dateString = timeString;
     }
     return new Date(dateString) / 1000;

@@ -1,6 +1,6 @@
 {
   "name": "btcnews",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "description": "A bitcoin news crawler",
   "main": "btcnews.js",
   "scripts": {
