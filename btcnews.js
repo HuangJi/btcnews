@@ -19,7 +19,8 @@ function Btcnews() {
         TECHNEWS_BITCOIN_TAG_URL: 'http://technews.tw/tag/%E6%AF%94%E7%89%B9%E5%B9%A3/',
         BNEXT_BITCOIN_TAG_URL: 'http://www.bnext.com.tw/search/tag/%E6%AF%94%E7%89%B9%E5%B9%A3',
         BABTC_BTICOIN_TAG_URL: 'http://www.8btc.com/technical',
-        BITECOIN_URL: 'http://www.bitecoin.com/'
+        BITECOIN_URL: 'http://www.bitecoin.com/',
+        COINDESK_URL: 'http://www.coindesk.com/news/'
     };
     this.posts = [];
     this.sourceList = [
@@ -47,6 +48,11 @@ function Btcnews() {
             name: 'bitecoin',
             source: "比特幣中文網",
             imgUrl: 'http://www.gogobit.com/images/articleSources/bitecoin.png'
+        },
+        {
+            name: 'coindesk',
+            source: "Coindesk",
+            imgUrl: 'http://www.gogobit.com/images/articleSources/coindesk.png'
         }
     ];
 }
@@ -160,6 +166,29 @@ Btcnews.prototype.getPosts = function(source, callback) {
             }
         });
     }
+    else if (source == 'coindesk') {
+        var self = this;
+        var coindeskObjectList = [];
+        request(this.getOptions(this.uris.COINDESK_URL), function(error, response, html) {
+            if (!error && response.statusCode == 200) {
+                var $ = cheerio.load(html);
+                list = $('#content').children();
+                list.map(function(i, el) {
+                    var url = $(this).children().children().attr('href');
+                    var imgUrl = $(this).children().children().children().attr('src');
+                    var title = $(this).children().children().attr('title');
+                    var datetime = $(this).children().children().next().children().attr('datetime');
+                    var timestamp = new Date(datetime) / 1000;
+                    coindeskObjectList.push(new Post(title, url, 'Coindesk', imgUrl, timestamp));
+                });
+                callback(null, coindeskObjectList);
+            }
+            else {
+                console.log(error);
+                callback(error, null);
+            }
+        });
+    }
     else {
         // TODO
         callback(null, null);
@@ -173,7 +202,7 @@ Btcnews.prototype.getTimestamp = function(source, timeString) {
         var date = stringjs(timeString).between('月 ', ' 日').s;
         var hour = stringjs(timeString).between('日 ', ':').s;
         var minute = stringjs(timeString).between(':', ' ').s;
-        var dateString = year + '/' + month + '/' + date + ' ' + hour + ':' + minute + ':0'; 
+        var dateString = year + '/' + month + '/' + date + ' ' + hour + ':' + minute + ':0';
 
     }
     else if (source == '8btc') {
@@ -191,7 +220,7 @@ Btcnews.prototype.getOptions = function(url) {
         headers: {
             'User-Agent': 'request'
         },
-        json:true // Automatically parses the JSON string in the response 
+        json:true // Automatically parses the JSON string in the response
     };
     return options;
 }
