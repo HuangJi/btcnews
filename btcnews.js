@@ -1,3 +1,5 @@
+'use strict';
+
 const cheerio = require('cheerio');
 const request = require('request');
 const stringjs = require('string');
@@ -62,8 +64,8 @@ Btcnews.prototype.getPosts = function (source, callback) {
     request(this.getOptions(this.uris.TECHNEWS_BITCOIN_TAG_URL), (error, response, html) => {
       if (!error && response.statusCode == 200) {
         const $ = cheerio.load(html);
-        header = $('.entry-header');
-        content = $('.img').children();
+        const header = $('.entry-header');
+        const content = $('.img').children();
         content.map(function (i, el) {
           techNewsObjectList.push(new Post($(this).attr('title'), $(this).attr('href'), 'TechNews 科技新報', $(this).children().attr('src'), null));
         });
@@ -85,7 +87,7 @@ Btcnews.prototype.getPosts = function (source, callback) {
     request(this.getOptions(this.uris.BNEXT_BITCOIN_TAG_URL), (error, response, html) => {
       if (!error && response.statusCode == 200) {
         const $ = cheerio.load(html);
-        target = $('.div_tab.item_box').children();
+        const target = $('.div_tab.item_box').children();
         target.map(function (i, el) {
           const imgUrl = stringjs($(this).children().children().attr('style')).between('url(\'', '\');').s;
           const title = stringjs($(this).children().next().children().children().first().text()).collapseWhitespace().s;
@@ -118,7 +120,7 @@ Btcnews.prototype.getPosts = function (source, callback) {
     request(this.getOptions(this.uris.BABTC_BTICOIN_TAG_URL), (error, response, html) => {
       if (!error && response.statusCode == 200) {
         const $ = cheerio.load(html);
-        list = $('#list').children();
+        const list = $('#list').children();
         list.map(function (i, el) {
           const url = $(this).children().children().attr('href');
           let imgUrl = $(this).children().children().children().children().attr('src');
@@ -139,7 +141,7 @@ Btcnews.prototype.getPosts = function (source, callback) {
     request(this.getOptions(this.uris.BITECOIN_URL), (error, response, html) => {
       if (!error && response.statusCode == 200) {
         const $ = cheerio.load(html);
-        list = $('#content').children();
+        const list = $('#content').children();
         list.map(function (i, el) {
           const url = $(this).children().children().children().attr('href');
           const title = $(this).children().children('h1').text();
@@ -160,7 +162,7 @@ Btcnews.prototype.getPosts = function (source, callback) {
     request(this.getOptions(this.uris.COINDESK_URL), (error, response, html) => {
       if (!error && response.statusCode == 200) {
         const $ = cheerio.load(html);
-        list = $('#content').children();
+        const list = $('#content').children();
         list.map(function (i, el) {
           const url = $(this).children().children().attr('href');
           const imgUrl = $(this).children().children().children().attr('src');
