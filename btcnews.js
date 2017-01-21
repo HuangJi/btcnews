@@ -20,7 +20,7 @@ function Btcnews() {
     BNEXT_BITCOIN_TAG_URL: 'http://www.bnext.com.tw/search/tag/%E6%AF%94%E7%89%B9%E5%B9%A3',
     BABTC_BTICOIN_TAG_URL: 'http://www.8btc.com/bitcoin',
     BITECOIN_URL: 'http://www.bitecoin.com/',
-    COINDESK_URL: 'http://www.coindesk.com/news/',
+    COINDESK_URL: 'http://www.coindesk.com/category/news/',
   };
   this.posts = [];
   this.sourceList = [
@@ -59,10 +59,10 @@ function Btcnews() {
 
 Btcnews.prototype.getPosts = function (source, callback) {
   var self = this;
-  if (source == 'technews') {
+  if (source === 'technews') {
     const techNewsObjectList = [];
     request(this.getOptions(this.uris.TECHNEWS_BITCOIN_TAG_URL), (error, response, html) => {
-      if (!error && response.statusCode == 200) {
+      if (!error && response.statusCode === 200) {
         const $ = cheerio.load(html);
         const header = $('.entry-header');
         const content = $('.img').children();
@@ -82,10 +82,10 @@ Btcnews.prototype.getPosts = function (source, callback) {
         callback(error, null);
       }
     });
-  } else if (source == 'bnext') {
+  } else if (source === 'bnext') {
     const bnextObjectList = [];
     request(this.getOptions(this.uris.BNEXT_BITCOIN_TAG_URL), (error, response, html) => {
-      if (!error && response.statusCode == 200) {
+      if (!error && response.statusCode === 200) {
         const $ = cheerio.load(html);
         const target = $('.div_tab.item_box').children();
         target.map(function (i, el) {
@@ -101,7 +101,7 @@ Btcnews.prototype.getPosts = function (source, callback) {
         callback(error, null);
       }
     });
-  } else if (source == 'btclub') {
+  } else if (source === 'btclub') {
     request(this.getOptions(this.uris.BTCTW_TUMBLR_API), (error, response, body) => {
       if (error) {
         console.error(error);
@@ -114,11 +114,11 @@ Btcnews.prototype.getPosts = function (source, callback) {
         callback(null, self.posts);
       }
     });
-  } else if (source == '8btc') {
+  } else if (source === '8btc') {
     var self = this;
     const babtcObjectList = [];
     request(this.getOptions(this.uris.BABTC_BTICOIN_TAG_URL), (error, response, html) => {
-      if (!error && response.statusCode == 200) {
+      if (!error && response.statusCode === 200) {
         const $ = cheerio.load(html);
         const list = $('#list').children();
         list.map(function (i, el) {
@@ -135,11 +135,11 @@ Btcnews.prototype.getPosts = function (source, callback) {
         callback(error, null);
       }
     });
-  } else if (source == 'bitecoin') {
+  } else if (source === 'bitecoin') {
     var self = this;
     const bitecoinObjectList = [];
     request(this.getOptions(this.uris.BITECOIN_URL), (error, response, html) => {
-      if (!error && response.statusCode == 200) {
+      if (!error && response.statusCode === 200) {
         const $ = cheerio.load(html);
         const list = $('#content').children();
         list.map(function (i, el) {
@@ -156,11 +156,11 @@ Btcnews.prototype.getPosts = function (source, callback) {
         callback(error, null);
       }
     });
-  } else if (source == 'coindesk') {
+  } else if (source === 'coindesk') {
     var self = this;
     const coindeskObjectList = [];
     request(this.getOptions(this.uris.COINDESK_URL), (error, response, html) => {
-      if (!error && response.statusCode == 200) {
+      if (!error && response.statusCode === 200) {
         const $ = cheerio.load(html);
         const list = $('#content').children();
         list.map(function (i, el) {
@@ -169,7 +169,7 @@ Btcnews.prototype.getPosts = function (source, callback) {
           const title = $(this).children().children().attr('title');
           const datetime = $(this).children().children().next().children().attr('datetime');
           const timestamp = new Date(datetime) / 1000;
-          coindeskObjectList.push(new Post(title, url, 'Coindesk', imgUrl, timestamp));
+          if (title) coindeskObjectList.push(new Post(title, url, 'Coindesk', imgUrl, timestamp));
         });
         callback(null, coindeskObjectList);
       } else {
@@ -184,16 +184,16 @@ Btcnews.prototype.getPosts = function (source, callback) {
 };
 
 Btcnews.prototype.getTimestamp = function (source, timeString) {
-  if (source == 'technews') {
+  if (source === 'technews') {
     const year = stringjs(timeString).between('', ' 年').s;
     const month = stringjs(timeString).between('年 ', ' 月').s;
     const date = stringjs(timeString).between('月 ', ' 日').s;
     const hour = stringjs(timeString).between('日 ', ':').s;
     const minute = stringjs(timeString).between(':', ' ').s;
     var dateString = `${year}/${month}/${date} ${hour}:${minute}:0`;
-  } else if (source == '8btc') {
+  } else if (source === '8btc') {
     var dateString = timeString;
-  } else if (source == 'bitecoin') {
+  } else if (source === 'bitecoin') {
     var dateString = timeString;
   }
   return new Date(dateString) / 1000;
